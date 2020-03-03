@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
 
-    'doctors'
+    'doctors',
+    'enroll_system'
 ]
 
 MIDDLEWARE = [
