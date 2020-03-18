@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
+    'rest_registration',
 
     'doctors',
     'enroll_system'
@@ -125,3 +126,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# REST registration config
+FRONTEND_URL = 'besthosp.bg'
+REST_REGISTRATION = {'REGISTER_VERIFICATION_ENABLED': True,
+                     'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
+                     'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+                     'REGISTER_VERIFICATION_URL': f"{FRONTEND_URL}/verify-user/",
+                     'REGISTER_EMAIL_VERIFICATION_URL': f"{FRONTEND_URL}/verify-email/",
+                     'VERIFICATION_FROM_EMAIL': 'todev&co@dev.com',
+                     'RESET_PASSWORD_VERIFICATION_URL': f"{FRONTEND_URL}/reset-password"
+
+}
+# EMAIL SETTINGS
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'todev&co@dev.com'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+
+

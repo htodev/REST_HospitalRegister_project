@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('rest_registration.api.urls')),
     path('doctors/', include('doctors.urls')),
     path('enrollment/', include('enroll_system.urls'))
 ]
