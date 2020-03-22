@@ -4,6 +4,7 @@ from enroll_system.serializers import EnrolmentSerializer
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from enroll_system.enrollment_permisson import IsOwner
 
 
 class AllEnrollments(generics.ListCreateAPIView):
@@ -21,9 +22,7 @@ class AllEnrollments(generics.ListCreateAPIView):
         else:
             doctor = Doctor.objects.get(name=dr_name)
             enrolment_entity = Enrollment.objects.get(doctor_name=doctor)
-            print(enrolment_entity)
             data = enrolment_entity.values
-            print(data)
             response_data = self._populate_response_data(data)
             return Response(response_data, status=status.HTTP_200_OK)
 
@@ -39,7 +38,7 @@ class AllEnrollments(generics.ListCreateAPIView):
 class EnrollmentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Enrollment.objects.all()
     serializer_class = EnrolmentSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def update(self, request, *args, **kwargs):
         return Response("Method not allowed", status=status.HTTP_405_METHOD_NOT_ALLOWED)
