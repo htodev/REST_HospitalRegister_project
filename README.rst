@@ -26,8 +26,9 @@ How to activate venv and install package requirements
 
 ::
     > install python 3.8
+
     > python -m <path_to_venv_folder>
+
     > <path_to_venv_folder>\Scripts\activate
+
     > pip install -r requirements.txt
-
-
