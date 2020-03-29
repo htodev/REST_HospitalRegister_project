@@ -3,6 +3,7 @@ from doctors.models import Doctor
 from enroll_system.serializers import EnrolmentSerializer
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from enroll_system.enrollment_permisson import IsOwner
 
@@ -48,12 +49,31 @@ class EnrollmentDetail(generics.RetrieveUpdateDestroyAPIView):
         return super().update(request, *args, **kwargs)
 
 
+class PatientsList(APIView):
 
+    def get(self, request, *args, **kwargs):
+        patient_name = request.query_params.get('patient', None )
+        print((patient_name))
+        data = Enrollment.objects.all()
+        if not patient_name:
+            all_patients = self._populate_response_data(data)
+            return Response(all_patients, status=status.HTTP_200_OK)
+        else:
+            all_patients = self._populate_response_data(data)
+            all_patients = all_patients
+            single_patient = []
+            for patient in all_patients:
+                for key, value in patient.items():
+                    if patient_name in value:
+                        single_patient.append(patient)
+                        break
+            return Response(single_patient, status=status.HTTP_200_OK)
 
-
-
-
-
-
-
-
+    @staticmethod
+    def _populate_response_data(data):
+        all_received_patients = []
+        for item in data:
+            temp_data = {'name': item.patient_name,
+                         'room_number': item.room_number}
+            all_received_patients.append(temp_data)
+        return all_received_patients

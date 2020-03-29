@@ -9,5 +9,6 @@ class Enrollment(models.Model):
     diagnosis = models.CharField(max_length=30)
     received_at = models.DateTimeField(auto_now=True)
     signed_out = models.BooleanField(default=False)
-    room_number = models.PositiveIntegerField
+    room_number = models.CharField(max_length=5)
+
 
