@@ -22,8 +22,8 @@ class AllEnrollments(generics.ListCreateAPIView):
             return Response(response_data, status=status.HTTP_200_OK)
         else:
             doctor = Doctor.objects.get(name=dr_name)
-            enrolment_entity = Enrollment.objects.get(doctor_name=doctor)
-            data = enrolment_entity.values
+            enrolment_entity = Enrollment.objects.filter(doctor_name=doctor)
+            data = enrolment_entity.values()
             response_data = self._populate_response_data(data)
             return Response(response_data, status=status.HTTP_200_OK)
 
@@ -53,7 +53,6 @@ class PatientsList(APIView):
 
     def get(self, request, *args, **kwargs):
         patient_name = request.query_params.get('patient', None )
-        print((patient_name))
         data = Enrollment.objects.all()
         if not patient_name:
             all_patients = self._populate_response_data(data)

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_registration',
 
     'doctors',
-    'enroll_system'
+    'enroll_system',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -126,6 +128,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# custom setting for custom user model with required email without name
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_EMAIL_FIELD = 'email'
+AUTH_USER_MODEL = 'users.User'
+
 
 # REST registration config
 FRONTEND_URL = 'besthosp.bg'
