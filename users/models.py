@@ -1,3 +1,4 @@
+"""Contains User model and UserManger."""
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -5,7 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class UserManager(BaseUserManager):
     """
-    Custom user manager which will create email instead of name
+    Custom user manager which will create email instead of name.
     """
 
     use_in_migrations = True
