@@ -1,5 +1,6 @@
 """It contains authorization functionality granting
    access to Enrollment records to Doctors."""
+
 from rest_framework.permissions import BasePermission
 from doctors.models import Doctor
 
@@ -16,6 +17,7 @@ class IsOwner(BasePermission):
         obj:
         return: True or False
         """
+
         try:
             doctor = Doctor.objects.get(user_id=request.user.id)
             return obj.doctor_name == doctor

@@ -1,4 +1,5 @@
 """Contains Doctor model."""
+
 from django.db import models
 from users.models import User
 from doctors.enums import SpecialityEnum

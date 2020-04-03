@@ -1,4 +1,5 @@
 """It contains all functionality related to Doctors API endpoints."""
+
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -9,6 +10,7 @@ from doctors.serializers import DoctorSerializer
 
 class DoctorsReview(generics.CreateAPIView):
     """Generic view for Create doctors."""
+
     serializer_class = DoctorSerializer
     permission_classes = [IsAuthenticated,]
 

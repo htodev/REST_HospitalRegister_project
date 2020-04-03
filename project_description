@@ -2,8 +2,8 @@
 
 The purpose of this design is to create Django Rest project.
 That system will help hospitals monitor admitted patients and
-their doctors. It will also contain basic information
-about the condition of the patients, their physicians and other data.
+their appointed doctors. It will also contain basic information
+about the condition of the patients and other data.
  Тhe requirements are as follows:
 
     * Each doctor must have  an user.

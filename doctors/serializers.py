@@ -1,4 +1,5 @@
 """It contains serialization for Doctor model."""
+
 from rest_framework import serializers
 from doctors.models import Doctor
 

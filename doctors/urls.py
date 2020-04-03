@@ -1,8 +1,9 @@
 """The 'urlpatterns' list route URLs to views."""
+
 from django.urls import path
 from doctors import views
 
 urlpatterns = [
-    path('creation/', views.DoctorsReview.as_view()),
+    path('create/', views.DoctorsReview.as_view()),
     path('', views.DoctorsList.as_view())
 ]
