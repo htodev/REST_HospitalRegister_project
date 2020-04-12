@@ -24,7 +24,12 @@ class DoctorsList(APIView):
         request:
         param args:
         param kwargs:
-        return: dict with processed doctor's info
+        return: [
+                    {
+                    'doctor_name': '',
+                    'speciality': ''
+                    }
+                ]
         """
 
         data = Doctor.objects.all()
@@ -34,11 +39,17 @@ class DoctorsList(APIView):
     @staticmethod
     def _populate_response_data(data):
         """
-        data: dict with all info about every doctor
-        return: [{doctor_name: <name>, speciality: <specialty>}}
+        data: QuerySet class with all doctors
+        return: [
+                    {
+                    'doctor_name': '',
+                    'speciality': ''
+                    }
+                ]
         """
 
         name_and_specialty = []
+        print(data)
         for doctor in data:
             temp_data = {'name': doctor.name,
                          'specialty': doctor.specialty}

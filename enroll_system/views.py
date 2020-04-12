@@ -1,5 +1,6 @@
 """It contains all functionality related to EnrollSystem API endpoints """
 
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -22,17 +23,30 @@ class AllEnrollments(generics.ListCreateAPIView):
         request:
         args:
         kwargs:
-        return: dict with all Enrollment objects
+        return: [
+                    {
+                    "id": "",
+                    "patient_name": "",
+                    "symptoms": "",
+                    "diagnosis": "",
+                    "received_at": "",
+                    "signed_out": "",
+                    "room_number": "",
+                    "doctor": ""
+                    }
+                ]
         """
 
         dr_name = request.query_params.get('doctor', None)
         if not dr_name:
             query = Enrollment.objects.all()
+            if not query.exists():
+                return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
             query = query.values()
             response_data = self._populate_response_data(query)
             return Response(response_data, status=status.HTTP_200_OK)
         else:
-            doctor = Doctor.objects.get(name=dr_name)
+            doctor = get_object_or_404(Doctor, name=dr_name)
             enrolment_entity = Enrollment.objects.filter(doctor_name=doctor)
             data = enrolment_entity.values()
             response_data = self._populate_response_data(data)
@@ -41,9 +55,30 @@ class AllEnrollments(generics.ListCreateAPIView):
     @staticmethod
     def _populate_response_data(data):
         """
-        data: queryset of Enrollment objects
-        converted to dict
-        return: dict with processed data
+        data: [
+                    {
+                    "id": "",
+                    "doctor_name_id": "",
+                    "patient_name": "",
+                    "symptoms": "",
+                    "diagnosis": "",
+                    "received_at": "",
+                    "signed_out": "",
+                    "room_number": "",
+                    }
+                ]
+        return: [
+                    {
+                    "id": "",
+                    "patient_name": "",
+                    "symptoms": "",
+                    "diagnosis": "",
+                    "received_at": "",
+                    "signed_out": "",
+                    "room_number": "",
+                    "doctor": ""
+                    }
+                ]
         """
 
         for item in data:
@@ -80,8 +115,12 @@ class PatientsList(APIView):
         param
         args:
         kwargs:
-        return: [{all_patient_data} OR {single_patient_data}]
-        (based on request.query_params)
+        return: [
+                    {
+                        "name": "",
+                        "room_number": ""
+                    }
+                ]
         """
 
         patient_name = request.query_params.get('patient', None)
