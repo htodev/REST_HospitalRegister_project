@@ -4,21 +4,21 @@ The purpose of this design is to create Django Rest project.
 That system will help hospitals monitor admitted patients and
 their appointed doctors. It will also contain basic information
 about the condition of the patients and other data.
- Тhe requirements are as follows:
+    Тhe requirements are as follows:
 
-    * Each doctor must have  an user.
-    * Each doctor  must list himself at define endpoint,
-    which will be accessible to everyone.
-    * Each doctor must keep a record of the patients admitted to it
-    at special endpoint for that.
-    * This record is accessible only for the doctors.
-    * The doctor can delete or update the registry, but only for patients,
-    related to it.
-    * Only doctors can filter registry by doctor name.
-    * There must be a list with names of all hospitalized patients visible to
-    everyone.
-    * Everyone must be able to filter patients list by patient name.
-    * Only admin and doctors (owners of the profile) can edit the profile.
+        * Each doctor must have  an user.
+        * Each doctor  must list himself at define endpoint,
+        which will be accessible to everyone.
+        * Each doctor must keep a record of the patients admitted to it
+        at special endpoint for that.
+            * This record is accessible only for the doctors.
+            * The doctor can delete or update the registry, but only for patients,
+        related to it.
+            * Only doctors can filter registry by doctor name.
+        * There must be a list with names of all hospitalized patients visible to
+        everyone.
+        * Everyone must be able to filter patients list by patient name.
+        * Only admin and doctors (owners of the profile) can edit the profile.
 
 
 
