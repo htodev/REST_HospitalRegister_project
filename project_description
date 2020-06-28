@@ -9,16 +9,16 @@ about the condition of the patients and other data.
         * Each doctor must have  an user.
         * Each doctor  must list himself at define endpoint,
         which will be accessible to everyone.
-        * Each doctor must keep a record of the patients admitted to it
+        * Each doctor must keep a record of the patients admitted by him
         at special endpoint for that.
-            * This record is accessible only for the doctors.
-            * The doctor can delete or update the registry, but only for patients,
-        related to it.
+            * This record is common and  accessible only for the doctors.
+            * The doctor can delete or update the registry, but only for the patients,
+        related to him.
             * Only doctors can filter registry by doctor name.
         * There must be a list with names of all hospitalized patients visible to
         everyone.
         * Everyone must be able to filter patients list by patient name.
-        * Only admin and doctors (owners of the profile) can edit the profile.
+        * Only admin and doctors (owners of the profile) can edit that profile.
 
 
 
