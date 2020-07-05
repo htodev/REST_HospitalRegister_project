@@ -20,7 +20,6 @@ class DoctorsList(APIView):
 
     def get(self, request, *args, **kwargs):
         """
-        Get doctors list
         request:
         param args:
         param kwargs:
@@ -40,18 +39,12 @@ class DoctorsList(APIView):
     def _populate_response_data(data):
         """
         data: QuerySet class with all doctors
-        return: [
-                    {
-                    'doctor_name': '',
-                    'speciality': ''
-                    }
-                ]
+        return: a list with dictionaries  with replaced keys 'user_id'  with 'doctor_name'
         """
 
         name_and_specialty = []
-        print(data)
         for doctor in data:
-            temp_data = {'name': doctor.name,
+            temp_data = {'doctor_name': doctor.name,
                          'specialty': doctor.specialty}
             name_and_specialty.append(temp_data)
         return name_and_specialty

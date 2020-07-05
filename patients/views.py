@@ -14,12 +14,8 @@ class PatientsList(APIView):
         param
         args:
         kwargs:
-        return: [
-                    {
-                        "name": "",
-                        "room_number": ""
-                    }
-                ]
+        return: a list with dictionaries containing data about
+        all or single Patient unit.
         """
 
         patient_name = request.query_params.get('patient', None)
@@ -27,22 +23,22 @@ class PatientsList(APIView):
         if not patient_name:
             all_patients = self._populate_response_data(data)
             return Response(all_patients, status=status.HTTP_200_OK)
-        else:
-            all_patients = self._populate_response_data(data)
-            all_patients = all_patients
-            single_patient = []
-            for patient in all_patients:
-                for key, value in patient.items():
-                    if patient_name in value:
-                        single_patient.append(patient)
-                        break
-            return Response(single_patient, status=status.HTTP_200_OK)
+        raw_patient_data = self._populate_response_data(data)
+        final_patient_data = []
+        for patient in raw_patient_data:
+            for key, value in patient.items():
+                if patient_name in value:
+                    final_patient_data.append(patient)
+                    break
+        return Response(final_patient_data, status=status.HTTP_200_OK)
 
     @staticmethod
     def _populate_response_data(data):
         """
-        data: dict of all Enrollment records
-        return:[{'name: patient, 'room_number': number}]
+        data: a list with dictionaries containing data about
+        each Enrollment unit.
+        return: a list with dictionaries containing data about patients(name and room),
+        extracted from each Enrollment unit.
         """
 
         all_received_patients = []
