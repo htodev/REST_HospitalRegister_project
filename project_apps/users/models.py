@@ -2,49 +2,47 @@
 
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
 
 
-class UserManager(BaseUserManager):
+class CustomUserManager(UserManager):
     """
-    Custom user manager which will create email instead of name.
+    Customise UserManager behaviour.
     """
-
     use_in_migrations = True
 
-    def create_user(self, email, password=None, **kwargs):
-        user = self.model(
-            email=self.normalize_email(email),
-            **kwargs
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+    # def create_superuser(self, email, password, **kwargs):
+    #     user = self.model(
+    #         email=email,
+    #         is_staff=True,
+    #         is_superuser=True,
+    #         is_active=True,
+    #         **kwargs
+    #     )
+    #     user.set_password(password)
+    #     user.save(using=self._db)
+    #     return user
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        """
+        Method which relates super user and customise it.
+        Args:
+            username: username
+            email: email
+            password: password
+            **extra_fields:
 
-    def create_staffuser(self, email, password, **kwargs):
+        Returns: User
 
-        user = self.create_user(
-            email,
+        """
+        user = super().create_superuser(
+            username=username,
             password=password,
-            **kwargs
+            email=email,
+            **extra_fields
         )
         user.is_active = True
-        user.is_staff = True
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password, **kwargs):
-        """
-        Create admin user
-        """
-        user = self.create_user(
-            email,
-            password=password,
-            **kwargs
-        )
-        user.is_active = True
-        user.is_staff = True
-        user.is_superuser = True
         user.save(using=self._db)
         return user
 
@@ -54,15 +52,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     Defines custom user model
     """
 
-    username = None
+    username = models.CharField(unique=True, max_length=50)
     email = models.EmailField(unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    specialty = models.CharField(choices=settings.SPECIALITY, blank=True, max_length=50)
+    image = models.ImageField(upload_to='users', null=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
-    objects = UserManager()
+    objects = CustomUserManager()

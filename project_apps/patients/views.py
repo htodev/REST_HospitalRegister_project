@@ -1,4 +1,6 @@
-"""It contains all functionality related to Patient API endpoint """
+"""It contains all functionality related to Patient API endpoint. """
+
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,12 +12,14 @@ class PatientsList(APIView):
 
     def get(self, request, *args, **kwargs):
         """
-        request:
-        param
-        args:
-        kwargs:
-        return: a list with dictionaries containing data about
-        all or single Patient unit.
+        Get method which takes all Enrollment object form DB, extract needed data
+        process it and turns it as dictionary.
+        Args:
+            request: request
+            *args: args
+            **kwargs: kwargs
+
+        Returns: Dictionary
         """
 
         patient_name = request.query_params.get('patient', None)
@@ -23,22 +27,18 @@ class PatientsList(APIView):
         if not patient_name:
             all_patients = self._populate_response_data(data)
             return Response(all_patients, status=status.HTTP_200_OK)
-        raw_patient_data = self._populate_response_data(data)
-        final_patient_data = []
-        for patient in raw_patient_data:
-            for key, value in patient.items():
-                if patient_name in value:
-                    final_patient_data.append(patient)
-                    break
-        return Response(final_patient_data, status=status.HTTP_200_OK)
+        patient = get_object_or_404(Enrollment, patient_name=patient_name)
+        return Response({"patient_name": patient.patient_name, "room": patient.room_number}, status=status.HTTP_200_OK)
 
     @staticmethod
     def _populate_response_data(data):
         """
-        data: a list with dictionaries containing data about
-        each Enrollment unit.
-        return: a list with dictionaries containing data about patients(name and room),
-        extracted from each Enrollment unit.
+        It Processes the passed data, and turns it back in needed format.
+
+        Args:
+            data: list with dictionaries
+
+        Returns: list with dictionaries
         """
 
         all_received_patients = []

@@ -1,6 +1,8 @@
 """Django settings for REST_HospitalRegister project."""
 
 import os
+from datetime import timedelta
+from os.path import join
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import sys
@@ -36,13 +38,14 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_registration',
 
-    'project_apps.doctors',
-    'project_apps.enroll_system',
     'project_apps.users',
-    'project_apps.patients'
+    'project_apps.enroll_system'
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 ROOT_URLCONF = 'REST_HospitalRegister.urls'
 
 TEMPLATES = [
@@ -119,32 +121,65 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# collect static files here
+STATIC_ROOT = join(BASE_DIR, 'run', 'static')
 
+# collect media files here
+MEDIA_ROOT = join(BASE_DIR, 'run', 'media')
+
+MEDIA_URL = '/media/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=90),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
 
 # custom setting for custom user model with required email without name
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_USER_EMAIL_FIELD = 'email'
+ACCOUNT_USER_EMAIL_FIELD = 'username'
 AUTH_USER_MODEL = 'users.User'
 
 
 # REST registration config
-FRONTEND_URL = 'besthosp.bg'
-REST_REGISTRATION = {'REGISTER_VERIFICATION_ENABLED': True,
-                     'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
-                     'RESET_PASSWORD_VERIFICATION_ENABLED': True,
-                     'REGISTER_VERIFICATION_URL': f"{FRONTEND_URL}/verify-user/",
-                     'REGISTER_EMAIL_VERIFICATION_URL': f"{FRONTEND_URL}/verify-email/",
-                     'VERIFICATION_FROM_EMAIL': 'todev&co@dev.com',
-                     'RESET_PASSWORD_VERIFICATION_URL': f"{FRONTEND_URL}/reset-password"
+FRONTEND_URL = ""  # it has to be without '/'!!!
+REST_REGISTRATION = {
+    'USER_HIDDEN_FIELDS': (
+        'is_admin',
+        'is_active',
+        'is_staff',
+        'is_superuser',
+        'user_permissions',
+        'groups',
+        'date_joined',
+        'specialty',
+        'image'
+    ),
+    'REGISTER_VERIFICATION_ENABLED': True,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+    'REGISTER_VERIFICATION_URL': f"{FRONTEND_URL}/verify-user/",
+    'REGISTER_EMAIL_VERIFICATION_URL': f"{FRONTEND_URL}/verify-email/",
+    'VERIFICATION_FROM_EMAIL': 'todev&co@dev.com',
+    'RESET_PASSWORD_VERIFICATION_URL': f"{FRONTEND_URL}/reset-password"
 
 }
+
 # EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -156,3 +191,12 @@ EMAIL_PORT = 25
 EMAIL_USE_TLS = False
 
 
+SPECIALITY = (
+    ('Urologist', 'Urologist'),
+    ('Gynecologist', 'Gynecologist'),
+    ('Dermatologist', 'Dermatologist'),
+    ('Nephrologist', 'Nephrologist'),
+    ('Cardiologist', 'Cardiologist'),
+    ('Virologist', 'Virologist'),
+    ('Surgeon', 'Surgeon')
+)

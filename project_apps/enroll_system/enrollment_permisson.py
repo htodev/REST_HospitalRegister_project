@@ -1,8 +1,8 @@
 """It contains authorization functionality granting
-   access to Enrollment records to Doctors."""
+   access to Enrollment records to Users."""
 
 from rest_framework.permissions import BasePermission
-from project_apps.doctors.models import Doctor
+from project_apps.users.models import User
 
 
 class IsOwner(BasePermission):
@@ -12,14 +12,15 @@ class IsOwner(BasePermission):
         """
         Checks whether authenticated user is author of particular
         object.
-        request:
-        view:
-        obj:
-        return: True or False
+        Args:
+            request: request
+            view: view
+            obj: obj
+        Returns: True or False
         """
 
         try:
-            doctor = Doctor.objects.get(user_id=request.user.id)
-            return obj.doctor_name == doctor
+            doctor = User.objects.get(id=request.user.id)
+            return obj.doctor == doctor
         except:
             return False

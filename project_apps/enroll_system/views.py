@@ -6,13 +6,29 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from project_apps.enroll_system.models import Enrollment
-from project_apps.doctors.models import Doctor
+from project_apps.users.models import User
 from project_apps.enroll_system.serializers import EnrolmentSerializer
 from project_apps.enroll_system.enrollment_permisson import IsOwner
 
 
+def populate_response_data(data):
+    """
+    Function which process raw data.
+    Args:
+        data: list with dictionaries containing the from queryset
+
+    Returns: dictionary
+    """
+
+    for item in data:
+        doctor = User.objects.get(id=item['doctor_id'])
+        del item['doctor_id']
+        item['doctor_name'] = doctor.username
+    return data
+
+
 class AllEnrollments(generics.ListCreateAPIView):
-    """Generic view for Create single Enrolment record."""
+    """Generic view for Create and list Enrolment records."""
 
     queryset = Enrollment.objects.all()
     serializer_class = EnrolmentSerializer
@@ -20,40 +36,27 @@ class AllEnrollments(generics.ListCreateAPIView):
 
     def list(self, request, *args, **kwargs):
         """
-        request:
-        args:
-        kwargs:
-        return: a list with dictionaries containing data about
-        each Enrollment unit.
+        Overwrites built-in list method, in order to create filter functionality
+        with query_params.
+        Args:
+            request: request
+            args: args
+            kwargs: kwargs
+
+        Returns: dictionary
         """
 
         dr_name = request.query_params.get('doctor', None)
         if not dr_name:
-            query = Enrollment.objects.all()
+            query = Enrollment.objects.all().values()
             if not query.exists():
                 raise Http404
-            query = query.values()
-            response_data = self._populate_response_data(query)
+            response_data = populate_response_data(query)
             return Response(response_data, status=status.HTTP_200_OK)
-        doctor = get_object_or_404(Doctor, name=dr_name)
-        enrolment_entity = Enrollment.objects.filter(doctor_name=doctor)
-        data = enrolment_entity.values()
-        response_data = self._populate_response_data(data)
+        doctor = get_object_or_404(User, username=dr_name)
+        enrolment_entity = Enrollment.objects.filter(doctor=doctor.id).values()
+        response_data = populate_response_data(enrolment_entity)
         return Response(response_data, status=status.HTTP_200_OK)
-
-    @staticmethod
-    def _populate_response_data(data):
-        """
-        data: list with dictionaries containing the raw data from
-        the queryset.
-        return: data with replaced keys 'doctor_id_id'  with 'doctor_name'.
-        """
-
-        for item in data:
-            dr = Doctor.objects.get(id=item['doctor_name_id'])
-            del item['doctor_name_id']
-            item['doctor_name'] = dr.name
-        return data
 
 
 class EnrollmentDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -62,6 +65,22 @@ class EnrollmentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Enrollment.objects.all()
     serializer_class = EnrolmentSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+
+    def get(self, request, *args, **kwargs):
+        """
+        Overwrites built-in get method, in order to customise the look of output data.
+        (Change User id with username)
+        Args:
+            request: request
+            args: args
+            kwargs: kwargs
+
+        Returns: Dictionary
+        """
+
+        enrolment_entity = Enrollment.objects.filter(id=kwargs["pk"]).values()
+        response_data = populate_response_data(enrolment_entity)
+        return Response(response_data, status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         return Response("Method not allowed", status=status.HTTP_405_METHOD_NOT_ALLOWED)

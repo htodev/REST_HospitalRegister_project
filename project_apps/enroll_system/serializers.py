@@ -12,4 +12,11 @@ class EnrolmentSerializer(serializers.ModelSerializer):
                 wil behave """
 
         model = Enrollment
-        fields = '__all__'
+        fields = ['id', 'doctor', 'patient_name', 'symptoms', 'diagnosis', 'received_at', 'signed_out', 'room_number']
+
+    def to_internal_value(self, data):
+        try:
+            data["doctor"] = self.context["request"].user.id
+        except KeyError:
+            raise serializers.ValidationError({"users": "User is required"})
+        return super().to_internal_value(data)
