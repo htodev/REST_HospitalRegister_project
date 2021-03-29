@@ -1,0 +1,21 @@
+[
+ {
+  "model": "users.user",
+  "pk": 1,
+  "fields": {
+   "password": "pbkdf2_sha256$216000$9uePQoGI1AUK$+xY4dcq5s4BkvPbu6tyr6/qyBsxXB7H3KfP8hDhRXdo=",
+   "last_login": null,
+   "username": "regular_user",
+   "email": "regular@user.com",
+   "date_joined": "2021-01-20T12:35:40.194Z",
+   "is_active": true,
+   "is_staff": false,
+   "is_superuser": false,
+   "specialty": "",
+   "image": "users/test_user_image",
+   "groups": [],
+   "user_permissions": []
+  }
+ }
+]
+
