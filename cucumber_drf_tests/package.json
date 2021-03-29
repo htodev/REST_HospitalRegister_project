@@ -1,0 +1,25 @@
+{
+  "name": "hospitalregister-cucumber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cucumber-drf": "./node_modules/.bin/cucumber-js ./features/ -r ./step_definitions",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.0.0-rc.0",
+    "selenium-webdriver": "^4.0.0-alpha.8"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "chai": "^4.2.0",
+    "cucumber": "^7.0.0-rc.0",
+    "date-and-time": "^0.14.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
