@@ -1,8 +1,8 @@
-Foneca Cucumber
+REST_HospitalRegister Cucumber
 
 ========================================================================
 
-**Foneca Cucumber** provides automated testing of Foneca apps.
+**REST_HospitalRegister Cucumber** provides automated testing of REST_HospitalRegister apps.
 
 
 Meta
@@ -10,16 +10,16 @@ Meta
 
 Author:
 
-    `AltScale <https://altscale.com>`_
+    `Hristo Todev`
 
 ========================================================================
 
-How to deploy Foneca Cucumber on your local machine
+How to deploy REST_HospitalRegister Cucumber on your local machine
 ------------------------------------------------------------------------
 
 ::
 
-    * get the code from remote repo https://bitbucket.altscale.com/projects/FW/repos/fonecabackend/browse
+    * get the code from remote repo https://github.com/htodev/REST_HospitalRegister_project
 
     * fetch the code to your workspace
 

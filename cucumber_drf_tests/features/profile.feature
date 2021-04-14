@@ -26,3 +26,12 @@ Feature: Manage UserProfile
     When I send patch request with not existing specialty
 	Then I should receive response with code "404"
     And I should receive error message
+
+  Scenario: Get all users
+    When I send get request to get all users
+	Then I should receive response with code "200"
+    And I should be able to get the list of these users
+
+  Scenario: Try to get foreign user
+    When I send request by id to get foreign user
+	Then I should receive response with code "404"

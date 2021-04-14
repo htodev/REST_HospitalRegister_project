@@ -77,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'REST_HospitalRegister.wsgi.application'
 
-
 # Database
 DATABASES = {
     'default': {
@@ -86,7 +85,7 @@ DATABASES = {
     }
 }
 
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',

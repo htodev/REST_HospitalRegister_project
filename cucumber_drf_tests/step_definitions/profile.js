@@ -52,13 +52,6 @@ Then('I should be able to get this specialty', async function () {
     assert.equal(this.userPatch.specialty, this.res.data.specialty);
 });
 
-
-
-
-
-
-
-
 When('I send patch request with not existing specialty', async function () {
     let userPatch = {
         specialty: 'test speciality',
@@ -72,4 +65,21 @@ When('I send patch request with not existing specialty', async function () {
 
 Then('I should receive error message', function () {
     assert.include(this.res.statusText, 'Not Found');
+});
+
+When('I send get request to get all users', async function () {
+    this.res = await axiosInst.get('/accounts/all/');
+    this.usersList = this.res.data;
+});
+
+Then('I should be able to get the list of these users', function () {
+    assert.equal(this.usersList.length, 2);
+});
+
+When('I send request by id to get foreign user', async function () {
+    try {
+        this.res = await axiosInst.get('/accounts/profile/2/');
+    } catch (error) {
+        this.res = error.response;
+    }
 });

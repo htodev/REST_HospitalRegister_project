@@ -13,7 +13,8 @@ from project_apps.enroll_system.enrollment_permisson import IsOwner
 
 def populate_response_data(data):
     """
-    Function which process raw data.
+    Function which process raw data in order to change
+    doctor_id field(because of the relation) with doctor name..
     Args:
         data: list with dictionaries containing the from queryset
 
