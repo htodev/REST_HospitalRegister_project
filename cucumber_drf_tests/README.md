@@ -92,6 +92,3 @@ How to run drf tests
     not. If expression matches a given scenario, perform the logic and if there is no errors, the test is passed, else it is
     failed.
 ------------------------------------------------------------------------
-
-
-

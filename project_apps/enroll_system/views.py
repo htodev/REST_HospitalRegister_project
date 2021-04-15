@@ -13,8 +13,8 @@ from project_apps.enroll_system.enrollment_permisson import IsOwner
 
 def populate_response_data(data):
     """
-    Function which process raw data in order to change
-    doctor_id field(because of the relation) with doctor name..
+    Function take Enrollment object as a dictionary and change
+    doctor_id field(because of the relation) with doctor name.
     Args:
         data: list with dictionaries containing the from queryset
 
@@ -33,7 +33,7 @@ class AllEnrollments(generics.ListCreateAPIView):
 
     queryset = Enrollment.objects.all()
     serializer_class = EnrolmentSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = (IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
         """
@@ -65,7 +65,7 @@ class EnrollmentDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Enrollment.objects.all()
     serializer_class = EnrolmentSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = (IsAuthenticated, IsOwner)
 
     def get(self, request, *args, **kwargs):
         """

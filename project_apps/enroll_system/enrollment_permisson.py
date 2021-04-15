@@ -1,11 +1,11 @@
 """It contains authorization functionality granting
    access to Enrollment records to Users."""
 
-from rest_framework.permissions import BasePermission
+from rest_framework import permissions
 from project_apps.users.models import User
 
 
-class IsOwner(BasePermission):
+class IsOwner(permissions.BasePermission):
     """This class inherit BasePermission class."""
 
     def has_object_permission(self, request, view, obj):
@@ -19,8 +19,5 @@ class IsOwner(BasePermission):
         Returns: True or False
         """
 
-        try:
-            doctor = User.objects.get(id=request.user.id)
-            return obj.doctor == doctor
-        except:
-            return False
+        doctor = User.objects.get(id=request.user.id)
+        return obj.doctor == doctor

@@ -27,9 +27,23 @@ Feature: Enrollment feature
     Then I should receive response with code "200"
     And I should be able to get this enrollment
 
-
   Scenario: Get my all existing enrollment records
     Given I send post request to create new enrollment
 	Then I sent a get request to get my all existing enrolment records
 	And I should receive response with code "200"
 	And I should be able to get my all enrolments
+
+  Scenario: Get foreign existing enrollment record
+    Given I send get request by id to get foreign enrollment
+	And I should receive response with code "200"
+	And I should be able to get this foreign enrollment
+
+  Scenario: Try to update foreign existing enrollment record
+    When I send patch request by id to update foreign enrollment
+	Then I should receive response with code "403"
+	And I should receive error message about permission rights
+
+  Scenario: Try to delete foreign existing enrollment record
+    When I send delete request by id to update foreign enrollment
+	Then I should receive response with code "403"
+	And I should receive error message about permission rights
