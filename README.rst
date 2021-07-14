@@ -28,11 +28,14 @@ How to activate venv and install package requirements
 
     > install python 3.8
 
-    > python -m {PATH_TO_VENV_FOLDER}
+    > python -m venv c:\path\to\venv
 
-    > <PATH_TO_VENV_FOLDER>\Scripts\activate
+    > path\to\venv\Scripts\activate
 
     > pip install -r requirements.txt
+
+    * if there is some problems about installing Pillow, run this script:
+    > python -m pip install --upgrade Pillow
 
     * (Windows)
 
