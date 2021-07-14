@@ -38,6 +38,8 @@ How to install yarn and package requirements - https://yarnpkg.com/lang/en/docs/
 
 ::
 
+    $ (for  Linux)
+    
     $ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 
     $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list deb https://dl.yarnpkg.com/debian/ stable main
@@ -47,6 +49,9 @@ How to install yarn and package requirements - https://yarnpkg.com/lang/en/docs/
     $ sudo apt-get update && sudo apt-get install yarn.
 
         * Update Yarn  and install  package requirements.
+     
+    $ (for Windows)
+        * npm install -g yarn
         
     $ yarn install
         * Tha command above will install node_modules

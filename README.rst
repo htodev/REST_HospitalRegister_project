@@ -83,4 +83,4 @@ How to load dummy data from fixtures.
 
 ::
 
-    $ python manage.py loaddata ./project_apps/*/fixtures/test/*.json
+    $ python manage.py loaddata .\project_apps\fixtures\dummy_data.json
